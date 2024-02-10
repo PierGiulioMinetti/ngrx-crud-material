@@ -2,13 +2,18 @@
   "users": [
     {
       "name": "Tupac Shakur",
-      "occupation": "Rap Legend!",
+      "occupation": "Rap Legend!!!",
       "id": "4e8c"
     },
     {
-      "name": "Giovanni",
-      "occupation": "Muciaccia",
-      "id": "cb4f"
+      "id": "6000",
+      "name": "Marshall Mathers III",
+      "occupation": "Eminem"
+    },
+    {
+      "name": "Snoop Dogg",
+      "occupation": "Death Row CEO",
+      "id": "9af8"
     }
   ]
 }

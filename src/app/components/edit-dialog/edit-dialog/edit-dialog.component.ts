@@ -37,7 +37,7 @@ export class EditDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public user:User
+    @Inject(MAT_DIALOG_DATA) public user:any,
     ) { }
 
   ngOnInit(): void {

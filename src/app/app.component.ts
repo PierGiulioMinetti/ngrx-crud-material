@@ -13,70 +13,80 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog/edit-d
 @Component({
   selector: 'app-root',
   template: `
-
+<div class="app-container">
   <h1>
     NGRX Crud
   </h1>
-  <div>
-    <form [formGroup]="form">
-      <div>
-        Name
-        <input type="text" formControlName="name">
-      </div>
-      <div>
-        Occupation
-        <input type="text" formControlName="occupation">
-      </div>
-
-      <button type="submit" mat-raised-button (click)="editForm()" matTooltip="This is a tooltip!" color="warn">Edit
-      </button>
-      <button type="submit" mat-raised-button (click)="saveForm()" matTooltip="This is a tooltip!" color="primary">Save
-      </button>
-
-    </form>
+  <div class="add-container">
+    <div (click)="openDialog()">
+      <span class="material-symbols-outlined add-icon">
+        add_circle
+      </span>
+    </div>
+    <div>
+      Crea nuovo utente
+    </div>
   </div>
 
-
-<!-- card -->
-<div class="single-card-container"  *ngFor="let user of (users$ | async)">
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title-group>
-        <mat-card-title>  Name: {{user.name}}</mat-card-title>
-        <mat-card-subtitle>Occupation: {{user.occupation}}</mat-card-subtitle>
-        <img mat-card-sm-image src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=">
-      </mat-card-title-group>
-    </mat-card-header>
-    <mat-card-content>
-      {{'Bio'}}
-    </mat-card-content>
-  </mat-card>
-  <div class="btn-choice-container">
-    <!-- <button type="button" mat-raised-button (click)="editUser(user)" matTooltip="This is a tooltip!" color="primary">
-      Edit
-    </button> -->
-    <button mat-button (click)="openDialog(user)" mat-raised-button color="primary">Edit</button>
-    <button type="button" mat-raised-button (click)="deleteUser(user)" matTooltip="This is a tooltip!" color="warn">
-      Delete
-    </button>
+  <!-- card -->
+  <div class="single-card-container" *ngFor="let user of (users$ | async)">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title> Name: {{user.name}}</mat-card-title>
+          <mat-card-subtitle>Occupation: {{user.occupation}}</mat-card-subtitle>
+          <img mat-card-sm-image
+            src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=">
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        {{'Bio'}}
+      </mat-card-content>
+    </mat-card>
+    <div class="btn-choice-container">
+      <button mat-button (click)="openDialog(user)" mat-raised-button color="primary">Edit</button>
+      <button type="button" mat-raised-button (click)="deleteUser(user)" matTooltip="This is a tooltip!" color="warn">
+        Delete
+      </button>
+    </div>
   </div>
 </div>
     <router-outlet></router-outlet>
   `,
   styles: [
     `
-    .single-card-container{
-      background-color: #80808014!important;
-      width: 30%;
-      border: 1px solid black;
-      margin: 1rem 0;
-    }
-
-    .btn-choice-container{
-      display:flex;
-      justify-content: space-evenly;
+    .app-container{
       width: 50%;
       margin: 0 auto;
+      background-color: #0000001c;
+      border-radius: 5px;
+
+      .add-container{
+        display:flex;
+        justify-content: center
+      }
+      .single-card-container{
+        background-color: #80808014!important;
+        width: 70%;
+        border: 1px solid black;
+        margin: 1rem auto;
+      }
+
+      .btn-choice-container{
+        display:flex;
+        justify-content: space-evenly;
+        width: 50%;
+        margin: 0 auto;
+        }
+
+        .add-icon{
+        font-size: 32px;
+        }
+
+        .add-icon:hover{
+          cursor: pointer;
+          color: #747474;
+        }
     }
     `
   ]
@@ -109,51 +119,66 @@ export class AppComponent {
     });
   }
 
-  saveForm() {
-    const obj = this.form.value
-    this.store.dispatch(addUsers({ user: obj }));
-    this.form.reset();
-  }
-
   loadUsers() {
     this.store.dispatch(loadUsers());
     this.users$ = this.store.select(selectUsersList);
   }
 
-  editUser(user: User) {
-    console.log('EDIT user: ', user);
-    this.form.get('occupation')?.setValue(user.occupation)
-    this.form.get('name')?.setValue(user.name);
-    this.userIdToEdit = user.id;
-    window.scrollTo(0, 0);
-  }
-
   editForm() {
-    this.store.dispatch(editUser({ user: {...this.form.value, id: this.userIdToEdit} }));
+    this.store.dispatch(editUser({ user: { ...this.form.value, id: this.userIdToEdit } }));
     this.form.reset();
   }
 
   deleteUser(user: User) {
     console.log('DELETE user: ', user);
-    this.store.dispatch(deleteUser({user}));
+    this.store.dispatch(deleteUser({ user }));
   }
 
-  openDialog(user: User) {
-    this.userIdToEdit = user.id;
+  openDialog(user?: User) {
+    if(user){
+      this.userIdToEdit = user.id;
 
-    let dialogRef = this.dialog.open(EditDialogComponent, {
-     data: {
-      ...user
-     }
-    }).afterClosed().subscribe((res)=>{
-      console.log('res modale chiusa', res);
-      if(res){
-        this.store.dispatch(editUser({ user: {...res, id: this.userIdToEdit} }));
-        this.form.reset();
-      }
+      this.dialog.open(EditDialogComponent, {
+        data: {
+          ...user
+        }
+      }).afterClosed().subscribe((res) => {
+        console.log('res modale chiusa', res);
+        if (res) {
+          this.store.dispatch(editUser({ user: { ...res, id: this.userIdToEdit } }));
+          this.form.reset();
+        }
+      });
+    } else {
+      this.dialog.open(EditDialogComponent, {
+        data: {
+          create: true
+        }
+      }).afterClosed().subscribe((res) => {
+        console.log('res modale chiusa', res);
+        if (res) {
+          this.store.dispatch(addUsers({ user: res }));
+          this.form.reset();
+        }
 
-    });
+      });
+    }
   }
+
+  // createUser() {
+  //   let dialogRef = this.dialog.open(EditDialogComponent, {
+  //     data: {
+  //       create: true
+  //     }
+  //   }).afterClosed().subscribe((res) => {
+  //     console.log('res modale chiusa', res);
+  //     if (res) {
+  //       this.store.dispatch(addUsers({ user: res }));
+  //       this.form.reset();
+  //     }
+
+  //   });
+  // }
 }
 
 
