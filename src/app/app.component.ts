@@ -32,11 +32,15 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog/edit-d
   <div class="single-card-container" *ngFor="let user of (users$ | async)">
     <mat-card class="example-card">
       <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title> Name: {{user.name}}</mat-card-title>
-          <mat-card-subtitle>Occupation: {{user.occupation}}</mat-card-subtitle>
-          <img mat-card-sm-image
-            src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=">
+        <mat-card-title-group class="container-desc-img">
+          <div>
+            <mat-card-title> Name: {{user.name}}</mat-card-title>
+            <mat-card-subtitle>Occupation: {{user.occupation}}</mat-card-subtitle>
+          </div>
+          <div>
+            <img mat-card-sm-image
+            [src]="user.image">
+          </div>
         </mat-card-title-group>
       </mat-card-header>
       <mat-card-content>
@@ -60,6 +64,12 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog/edit-d
       margin: 0 auto;
       background-color: #0000001c;
       border-radius: 5px;
+
+      .container-desc-img{
+        display:flex;
+        justify-content: space-evenly;
+        // background-color: red;
+      }
 
       .add-container{
         display:flex;

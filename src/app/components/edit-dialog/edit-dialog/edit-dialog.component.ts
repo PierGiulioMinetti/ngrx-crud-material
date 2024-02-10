@@ -16,6 +16,10 @@ import { User } from 'src/app/models/user.model';
         Occupation
         <input type="text" formControlName="occupation">
       </div>
+      <div>
+        Image url
+        <input type="text" formControlName="image">
+      </div>
 
 
     </form>
@@ -50,6 +54,7 @@ export class EditDialogComponent implements OnInit {
     this.form = this.fb.group({
       name: [this.user.name],
       occupation: [this.user.occupation],
+      image: [this.user.image],
     });
   }
 

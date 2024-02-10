@@ -3,17 +3,32 @@
     {
       "name": "Tupac Shakur",
       "occupation": "Rap Legend!!!",
+      "image": "https://walkoffame.com/wp-content/uploads/2023/05/Image-scaled.jpeg",
       "id": "4e8c"
     },
     {
-      "id": "6000",
       "name": "Marshall Mathers III",
-      "occupation": "Eminem"
+      "occupation": "Eminem",
+      "image": "https://hips.hearstapps.com/hmg-prod/images/eminem-a-k-a-marshall-bruce-mathers-iii-attends-a-ceremony-news-photo-1698936282.jpg?crop=1.00xw:0.667xh;0,0.0380xh&resize=640:*",
+      "id": "6000"
     },
     {
       "name": "Snoop Dogg",
       "occupation": "Death Row CEO",
+      "image": "https://pbs.twimg.com/profile_images/1564375315526275072/7Xnua7BM_400x400.jpg",
       "id": "9af8"
+    },
+    {
+      "id": "14cf",
+      "name": "Dr Dre",
+      "occupation": "Aftermath Record Founder",
+      "image": "https://i.scdn.co/image/83d2489cade1dadcdc533ddbcd74993d0ca6d4cb"
+    },
+    {
+      "id": "7cd2",
+      "name": "Chester Bennington",
+      "occupation": "Linkin Park Singer",
+      "image": "https://hips.hearstapps.com/hmg-prod/images/chester-bennington-tra-successi-e-demoni-1651497298.jpg?crop=0.683xw:1.00xh;0.176xw,0&resize=1200:*"
     }
   ]
 }
