@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { addUsers, deleteUser, editUser, loadUsers } from './store/users/users.action';
@@ -7,6 +7,8 @@ import { UsersState } from './store/users/users.reducers';
 import { User } from './models/user.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { EditDialogComponent } from './components/edit-dialog/edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -26,13 +28,10 @@ import { HttpClient } from '@angular/common/http';
         <input type="text" formControlName="occupation">
       </div>
 
-      <button type="submit" mat-raised-button (click)="editForm()" matTooltip="This is a tooltip!"
-        color="warn">Edit
+      <button type="submit" mat-raised-button (click)="editForm()" matTooltip="This is a tooltip!" color="warn">Edit
       </button>
-      <button type="submit" mat-raised-button (click)="saveForm()" matTooltip="This is a tooltip!"
-        color="primary">Save
+      <button type="submit" mat-raised-button (click)="saveForm()" matTooltip="This is a tooltip!" color="primary">Save
       </button>
-
 
     </form>
   </div>
@@ -53,9 +52,10 @@ import { HttpClient } from '@angular/common/http';
     </mat-card-content>
   </mat-card>
   <div class="btn-choice-container">
-    <button type="button" mat-raised-button (click)="editUser(user)" matTooltip="This is a tooltip!" color="primary">
+    <!-- <button type="button" mat-raised-button (click)="editUser(user)" matTooltip="This is a tooltip!" color="primary">
       Edit
-    </button>
+    </button> -->
+    <button mat-button (click)="openDialog(user)" mat-raised-button color="primary">Edit</button>
     <button type="button" mat-raised-button (click)="deleteUser(user)" matTooltip="This is a tooltip!" color="warn">
       Delete
     </button>
@@ -90,8 +90,8 @@ export class AppComponent {
   constructor(
     private fb: FormBuilder,
     private store: Store<UsersState>,
-    private http: HttpClient
-
+    private http: HttpClient,
+    public dialog: MatDialog,
   ) {
 
   }
@@ -136,6 +136,23 @@ export class AppComponent {
   deleteUser(user: User) {
     console.log('DELETE user: ', user);
     this.store.dispatch(deleteUser({user}));
+  }
+
+  openDialog(user: User) {
+    this.userIdToEdit = user.id;
+
+    let dialogRef = this.dialog.open(EditDialogComponent, {
+     data: {
+      ...user
+     }
+    }).afterClosed().subscribe((res)=>{
+      console.log('res modale chiusa', res);
+      if(res){
+        this.store.dispatch(editUser({ user: {...res, id: this.userIdToEdit} }));
+        this.form.reset();
+      }
+
+    });
   }
 }
 

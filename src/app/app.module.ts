@@ -13,11 +13,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersEffects } from './store/users/users.effects';
 import { usersReducer } from './store/users/users.reducers';
+import { EditDialogComponent } from './components/edit-dialog/edit-dialog/edit-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EditDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ import { usersReducer } from './store/users/users.reducers';
     HttpClientModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     StoreModule.forRoot(
       {
      users: usersReducer

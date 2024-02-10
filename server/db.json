@@ -2,8 +2,13 @@
   "users": [
     {
       "name": "Tupac Shakur",
-      "occupation": "Rap Legend",
+      "occupation": "Rap Legend!",
       "id": "4e8c"
+    },
+    {
+      "name": "Giovanni",
+      "occupation": "Muciaccia",
+      "id": "cb4f"
     }
   ]
 }
